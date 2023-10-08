@@ -35,13 +35,24 @@ class FunctionButton extends Component {
         let open = document.getElementById(text_id);
         open.style.display = "flex";
     }
-    onClickDrawEverything() {
-        var x = document.getElementById('snackbar');
-        x.innerHTML = "Function update in next time";
-        x.className = 'show';
-        setTimeout(function () {
-            x.className = x.className.replace('show', '');
-        }, 3000);
+    async onclickIcon() {
+        let alert = document.querySelector('.alert');
+        try {
+            await axios.put(`https://ledserver.onrender.com/led/4`, {});
+            alert.innerHTML = "Dữ liệu được gửi thành công";
+            alert.style.backgroundColor = '#04aa6d';
+            alert.style.display = 'block';
+            setTimeout(function () {
+                alert.style.display = 'none';
+            }, 2000);
+        } catch (error) {
+            alert.innerHTML = "Có lỗi xảy ra vui lòng thử lại";
+            alert.style.backgroundColor = 'red';
+            alert.style.display = 'block';
+            setTimeout(function () {
+                alert.style.display = 'none';
+            }, 2000);
+        }
     }
     render() {
         let { lable } = this.state;
@@ -54,6 +65,7 @@ class FunctionButton extends Component {
                     <WeatherPanel></WeatherPanel>
                     <div className='button' onClick={() => { this.onClickDisplay('panel_weather_btn')}}>Weather Display</div>
                     <div className='button' onClick={() => { this.onClickDisplay('panel_settext_btn') }}>Set Text Display</div>
+                    <div className='button' onClick={() => { this.onclickIcon() }}>Icon Display</div>
                 </div>
             </div>
         );
