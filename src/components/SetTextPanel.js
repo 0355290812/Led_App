@@ -59,6 +59,7 @@ class SetTextPanel extends Component {
                     alert.style.display = 'none';
                 }, 2000);
             } else {
+                let scroll_cb = document.getElementById('check-apple');
                 let data = {
                     program: 2,
                     text: text,
@@ -68,8 +69,19 @@ class SetTextPanel extends Component {
                         b: color[index].data.b
                     }
                 }
-                let scroll_cb = document.getElementById('check-apple');
-                if (scroll_cb.checked) data.program = 3;
+                if (scroll_cb.checked) {
+                    data.program = 3;
+                } else {
+                    if (text.length > 10) {
+                        alert.innerHTML = "Chữ quá dài, vui lòng nhập lại! (Tối đa 10 ký tự)";
+                        alert.style.backgroundColor = 'orange';
+                        alert.style.display = 'block';
+                        setTimeout(function () {
+                            alert.style.display = 'none';
+                        }, 2000);
+                        return;
+                    }
+                }
                 await axios.put(`https://ledserver.onrender.com/led/${data.program}`,data);
                 alert.innerHTML = "Dữ liệu được gửi thành công";
                 alert.style.backgroundColor = '#04aa6d';
