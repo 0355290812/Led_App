@@ -51,15 +51,23 @@ class SetTextPanel extends Component {
         let alert = document.querySelector('.alert');
         try {
             let { index, color, text } = this.state;
+            let scroll_cb = document.getElementById('check-apple');
             if (text === "") {
-                alert.innerHTML = "Nhập thiếu vui lòng nhập lại!";
-                alert.style.backgroundColor = 'orange';
+                let program = 2;
+                if (scroll_cb.checked) {
+                    program = 3
+                } else {
+                    program = 2
+                }
+                await axios.put(`https://ledserver.onrender.com/led/${program}`,{});
+                alert.innerHTML = "Dữ liệu được gửi thành công";
+                alert.style.backgroundColor = '#04aa6d';
                 alert.style.display = 'block';
                 setTimeout(function () {
                     alert.style.display = 'none';
                 }, 2000);
+
             } else {
-                let scroll_cb = document.getElementById('check-apple');
                 let data = {
                     program: 2,
                     text: text,
